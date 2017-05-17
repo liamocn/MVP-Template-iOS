@@ -8,18 +8,37 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class FirstViewController: BaseViewController {
+    
+    @IBOutlet var message: UILabel!
+    
+    var homePresenter: HomePresenter?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.message.text = "waiting"
+        
+        homePresenter?.attachView(self)
+        homePresenter?.getHomeContent()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    deinit {
+        homePresenter?.detachView()
+    }
 
+}
 
+extension FirstViewController : HomeMvpView {
+    
+    func hasContent(content: String) {
+        self.message.text = content
+    }
+    
 }
 
